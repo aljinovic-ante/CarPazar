@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/newListingInfo.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap}" />
+    <title>Listing info</title>
+</head>
+<body onload="specsInit()">
+    <form method="post" id="new-specs-form">
+        <div id="additional-mandatory">
+            <label for="brand">Make:<span class="required">*</span></label><br>
+            <select name="brand" id="select-brand" onchange="updateModels()" required>
+                <option value="" disabled selected>Select vehicle brand</option>
+            </select><br><br>
+        
+            <label for="model">Model:<span class="required">*</span></label><br>
+            <select name="model" id="select-model" required>
+                <option value="" disabled selected>Select vehicle model</option>
+            </select><br><br>
+        
+            <label for="enginePower">Engine power:<span class="required">*</span></label><br>
+            <input type="number" name="enginePower" id="engine-power" placeholder="Engine Power" min="0" max="999" required>
+            <select name="powerUnit" id="power-unit" required>
+                <option value="hp" selected>hp</option>
+                <option value="kW">kW</option>
+            </select><br><br>
+        
+            <label for="engineType">Engine type:<span class="required">*</span></label><br>
+            <select name="engineType" id="engine-type" required>
+                <option value="" disabled selected>Engine Type</option>
+                <option value="diesel">Diesel</option>
+                <option value="gasoline">Gasoline/Gas</option>
+                <option value="hybrid">Hybrid</option>
+                <option value="electric">EV</option>
+            </select><br><br>
+        
+            <label for="shifterType">Transmission:<span class="required">*</span></label><br>
+            <select name="shifterType" id="shifter-type" required>
+                <option value="" selected disabled>Shifter Type</option>
+                <option value="automatic">Automatic</option>
+                <option value="manual">Manual</option>
+            </select><br><br>
+        
+            <label for="kilometersTravelled">Odometer (km):<span class="required">*</span></label><br>
+            <input type="number" name="kilometersTravelled" id="kms" placeholder="Kilometerage" min="0" max="999999" required><br><br>
+        
+            <label for="manufactureYear">Manufacture year:<span class="required">*</span></label><br>
+            <input type="number" name="manufactureYear" id="year" placeholder="Manufacture Year" min="1900" max="2100" required><br><br>
+        
+            <label for="registrationUntil">Registered until:<span class="required">*</span></label><br>
+            <input type="date" id="reg-date" name="registrationUntil" placeholder="Registration Date" min="2020-01-01" max="2099-12-31" required>
+            <label for="unregistered">Vehicle is unregistered:</label>
+            <input type="checkbox" id="reg-checkbox" name="unregistered" onchange="disableRegInput()"><br><br>
+        
+            <label for="ownerNo">Owner:<span class="required">*</span></label><br>
+            <select name="ownerNo" id="owner" required>
+                <option value="" selected disabled>Pick a number</option>
+                <option value="1">First</option>
+                <option value="2">Second</option>
+                <option value="3">Third or more</option>
+            </select><br><br>
+
+            <label for="isUsed">Car condition:<span class="required">*</span></label><br>
+            <div class="radio-group">
+                <input type="radio" id="is-used-new" name="isUsed" value="false">
+                <label for="is-used-new">New</label>
+                <input type="radio" id="is-used-old" name="isUsed" value="true" checked>
+                <label for="is-used-old">Used</label>
+            </div><br><br>
+
+
+            <label for="location">Location:<span class="required">*</span></label><br>
+            <select name="location" id="select-county" required>
+                <option value="" disabled selected>Location</option>
+            </select>
+        </div>
+
+        <div id="additional-optional">
+            <label for="inTrafficSince">In traffic since:</label><br>
+            <input type="number" name="inTrafficSince" placeholder="Year" min="1900" max="2100"><br>
+        
+            <label for="doorCount">Door count:</label><br>
+            <input type="number" name="doorCount" placeholder="Door Count" min="1" max="9"><br>
+        
+            <label for="gearCount">Gear count:</label><br>
+            <input type="number" name="gearCount" placeholder="Gear Count" min="1" max="19"><br>
+        
+            <label for="bodyShape">Body shape:</label><br>
+            <select name="bodyShape">
+                <option value="" selected>---</option>
+                <option value="coupe">Coupe</option>
+                <option value="limo">Limousine</option>
+                <option value="caravan">Caravan</option>
+                <option value="hatchback">Hatchback</option>
+                <option value="suv">SUV</option>
+                <option value="minivan">Minivan</option>
+                <option value="cabrio">Convertible</option>
+                <option value="van">Van</option>
+            </select><br><br>
+        
+            <label for="driveType">Drive type:</label><br>
+            <select name="driveType">
+                <option value="" selected>---</option>
+                <option value="fwd">FWD</option>
+                <option value="rwd">RWD</option>
+                <option value="awd">AWD</option>
+            </select><br>
+        
+            <label for="consumption">Consumption (L/100km):</label><br>
+            <input type="number" step="any" name="consumption" placeholder="Consumption" min="0" max="99.9"><br>
+        
+            <label for="acType">AC type:</label><br>
+            <select name="acType">
+                <option value="" selected>---</option>
+                <option value="automatic">Automatic</option>
+                <option value="dual">Dual</option>
+                <option value="manual">Manual</option>
+            </select><br>
+        
+            <label for="seatCount">Seat count:</label><br>
+            <input type="number" name="seatCount" placeholder="Seat Count" min="1" max="99"><br>
+        
+            <label for="color">Vehicle color:</label><br>
+            <input type="text" name="color" placeholder="Color" maxlength="32"><br>
+        
+        </div>
+
+        <div id="additional-checkboxes">
+            <article id="equipment">
+                <label for="additional-equipment"><h2>Additional equipment:</h2></label>
+            
+                <p><input type="checkbox" value="0" name="additional-equipment" onchange="onChangeEquip()"><span>Rear Windshield Wiper</span></p>
+                <p><input type="checkbox" value="1" name="additional-equipment" onchange="onChangeEquip()"><span>Rain Sensor</span></p>
+                <p><input type="checkbox" value="2" name="additional-equipment" onchange="onChangeEquip()"><span>Cruise Control</span></p>
+            
+                <p><input type="checkbox" value="3" name="additional-equipment" onchange="onChangeEquip()"><span>ABS</span></p>
+                <p><input type="checkbox" value="4" name="additional-equipment" onchange="onChangeEquip()"><span>Navigation</span></p>
+                <p><input type="checkbox" value="5" name="additional-equipment" onchange="onChangeEquip()"><span>LED Headlights</span></p>
+            
+                <p><input type="checkbox" value="6" name="additional-equipment" onchange="onChangeEquip()"><span>Infotainment Screen</span></p>
+                <p><input type="checkbox" value="7" name="additional-equipment" onchange="onChangeEquip()"><span>Speed Limiter</span></p>
+                <p><input type="checkbox" value="8" name="additional-equipment" onchange="onChangeEquip()"><span>Lane Assist</span></p>
+            
+                <p><input type="checkbox" value="9" name="additional-equipment" onchange="onChangeEquip()"><span>Aluminium Rims</span></p>
+                <p><input type="checkbox" value="10" name="additional-equipment" onchange="onChangeEquip()"><span>Steering Lights</span></p>
+                <p><input type="checkbox" value="11" name="additional-equipment" onchange="onChangeEquip()"><span>Fog Lights</span></p>
+            </article>
+        
+            <article id="extras">
+                <label for="extra-features"><h2>Extra features:</h2></label>
+            
+                <p><input type="checkbox" value="0" name="extra-features" onchange="onChangeEquip()"><span>Electrical Window Raising</span></p>
+                <p><input type="checkbox" value="1" name="extra-features" onchange="onChangeEquip()"><span>Electrical Seat Adjustment</span></p>
+                <p><input type="checkbox" value="2" name="extra-features" onchange="onChangeEquip()"><span>Electrical Side Mirror Adjustment</span></p>
+            
+                <p><input type="checkbox" value="3" name="extra-features" onchange="onChangeEquip()"><span>Side Mirror Heating</span></p>
+                <p><input type="checkbox" value="4" name="extra-features" onchange="onChangeEquip()"><span>Steering Wheel Adjustment</span></p>
+                <p><input type="checkbox" value="5" name="extra-features" onchange="onChangeEquip()"><span>Foldable Rear Seats</span></p>
+            
+                <p><input type="checkbox" value="6" name="extra-features" onchange="onChangeEquip()"><span>Bluetooth</span></p>
+                <p><input type="checkbox" value="7" name="extra-features" onchange="onChangeEquip()"><span>Android Auto</span></p>
+                <p><input type="checkbox" value="8" name="extra-features" onchange="onChangeEquip()"><span>Apple CarPlay</span></p>
+            
+                <p><input type="checkbox" value="9" name="extra-features" onchange="onChangeEquip()"><span>Central Armrest</span></p>
+                <p><input type="checkbox" value="10" name="extra-features" onchange="onChangeEquip()"><span>Start/Stop System</span></p>
+                <p><input type="checkbox" value="11" name="extra-features" onchange="onChangeEquip()"><span>Tyre Pressure Control</span></p>
+            </article>
+
+            <input type="hidden" name="additionalEquipment" value="0">
+            <input type="hidden" name="extraFeatures" value="0">
+        
+            <input type="submit" class="submit_button">
+
+            <div id="error-msg"></div>
+        </div>
+
+        <button type="button" id="back-button" onclick="showPrevious()">Back</button>
+        <button type="button" id="next-button" onclick="showNext('specs')">Next</button>
+    </form>
+
+    <script src="/javaScript/newListing.js"></script>
+    <script src="/javaScript/calculateCheckbox.js"></script>
+</body>
+</html>

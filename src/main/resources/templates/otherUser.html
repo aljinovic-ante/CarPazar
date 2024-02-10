@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>User Profile</title>
+    <link rel="stylesheet" th:href="@{/css/otherUser.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap}" />
+
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbarDiv}"></div>
+<div class="user_body">
+    <div class="user_left_side">
+        <div class="user_info">
+            <span>Username:</span> <h2 th:text="${username}" style="display: inline;">Username</h2>
+            <hr>
+            <p>Premium Member: <span th:text="${premium ? 'Yes' : 'No'}"></span></p>
+            <hr>
+        </div>
+    </div>
+
+    <div class="user_right_side">
+        <div class="a" th:if="${!listings.isEmpty()}">
+            <ul>
+                <li th:each="listing : ${listings}">
+                    <div class="b">
+                        <div class="c">
+                            <a th:text="${listing.title}" th:href="@{'/listingWithImages/'+${listing.id}}"></a>
+                            <p th:text="${listing.specifications.kilometersTravelled + ' km'}">
+                            <p th:text="'Price: ' + ${listing.price} + ' €'"></p>
+                            <a class="button" th:href="@{/start-chat/{id}(id=${listing.id})}">Message seller</a>
+                        </div>
+                        <div class="listing_image">
+                            <img class="listing_image_img" th:src="@{'/imagesListing/'+${listing.id}}" alt="Listing Image">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="div1" th:if="${listings.isEmpty()}">
+            <h1>User has not posted any listings yet!</h1>
+        </div>
+    </div>
+</div>
+</body>
+</html>
